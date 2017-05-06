@@ -367,7 +367,8 @@ class Extras(OptionallyRequired):
 
         for (dirpath, dirs, filenames) in os.walk(docs_dir):
             dirs.sort()
-            for filename in sorted(filenames):
+            for filename in sorted(filenames, key=lambda item: (int(item.partition('-')[0])
+                               if item[0].isdigit() else float('inf'), item)):
                 fullpath = os.path.join(dirpath, filename)
 
                 # Some editors (namely Emacs) will create temporary symlinks
