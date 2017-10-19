@@ -371,16 +371,18 @@ class Extras(OptionallyRequired):
                                if item[0].isdigit() else float('inf'), item)):
                 fullpath = os.path.join(dirpath, filename)
 
-                # Some editors (namely Emacs) will create temporary symlinks
-                # for internal magic. We can just ignore these files.
-                if os.path.islink(fullpath):
-                    fp = os.path.join(dirpath, os.readlink(fullpath))
-                    if not os.path.exists(fp):
-                        continue
+                if not filename.startswith('_'):
+                
+                    # Some editors (namely Emacs) will create temporary symlinks
+                    # for internal magic. We can just ignore these files.
+                    if os.path.islink(fullpath):
+                        fp = os.path.join(dirpath, os.readlink(fullpath))
+                        if not os.path.exists(fp):
+                            continue
 
-                relpath = os.path.normpath(os.path.relpath(fullpath, docs_dir))
-                if self.file_match(relpath):
-                    yield relpath
+                    relpath = os.path.normpath(os.path.relpath(fullpath, docs_dir))
+                    if self.file_match(relpath):
+                        yield relpath
 
     def post_validation(self, config, key_name):
 
